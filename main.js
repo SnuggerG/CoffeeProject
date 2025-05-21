@@ -13,6 +13,12 @@ let CurrentStep = 0;
 let TimerCount;
 let intervalId;
 
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+
 const steps = [
     {name: "Start", time: 3, water: 0},
     {name: "Pre-wet filter", time: 15, water: 0},
@@ -43,7 +49,7 @@ function startStep() {
 
     intervalId = setInterval(function() {
         TimerCount--;
-        TimerLabel.textContent = `00:${TimerCount}`;
+        TimerLabel.textContent = formatTime(TimerCount);
 
         if (TimerCount <= 0) {
             clearInterval(intervalId);
@@ -62,7 +68,7 @@ function startStep() {
 function updateUI() {
     const currentStep = steps[CurrentStep];
     StepLabel.textContent = `Step: ${currentStep.name}`;
-    TimerLabel.textContent = `00:${currentStep.time}`;
+    TimerLabel.textContent = formatTime(currentStep.time);
     AmountLabel.textContent = `Pour ${currentStep.water}g of water`;
 }
 
